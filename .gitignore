@@ -1,3 +1,5 @@
 Data/
 venv1/
 .idea/
+Notebooks/.ipynb*
+jupyter
