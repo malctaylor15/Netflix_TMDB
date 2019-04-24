@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="1081788e-b78d-4896-b7c0-5acb578a128d" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Notebooks/Better TMDB querying.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Notebooks/Better TMDB querying.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Notebooks/Better TMDB querying.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Notebooks/EDA v1.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Notebooks/EDA v1.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gather_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gather_data.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -14,7 +15,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
@@ -24,14 +25,32 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="gather_data.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="gather_data.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gather_data.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="344">
-              <caret line="82" column="56" selection-start-line="82" selection-start-column="56" selection-end-line="82" selection-end-column="56" />
+            <state relative-caret-position="220">
+              <caret line="28" column="85" lean-forward="true" selection-start-line="28" selection-start-column="85" selection-end-line="28" selection-end-column="85" />
               <folding>
                 <element signature="e#1#26#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TMDB movie query.ipynb" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Notebooks/TMDB movie query.ipynb">
+          <provider selected="true" editor-type-id="ipnb-editor">
+            <state>
+              <selected id="0" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EDA v1.ipynb" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Notebooks/EDA v1.ipynb">
+          <provider selected="true" editor-type-id="ipnb-editor">
+            <state>
+              <selected id="45" />
             </state>
           </provider>
         </entry>
@@ -52,20 +71,22 @@
         <option value="$PROJECT_DIR$/venv1/finish_setup" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/gather_data.py" />
+        <option value="$PROJECT_DIR$/Notebooks/EDA v1.ipynb" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1920" />
-    <option name="y" value="-2" />
-    <option name="width" value="1920" />
-    <option name="height" value="1082" />
+    <option name="x" value="67" />
+    <option name="y" value="25" />
+    <option name="width" value="1853" />
+    <option name="height" value="1055" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -92,7 +113,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -124,20 +144,19 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1920" y="-2" width="1920" height="1082" extended-state="6" />
+    <frame x="67" y="25" width="1853" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17044826" />
       <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="R Packages" order="3" />
+      <window_info anchor="right" id="R Graphics" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" weight="0.32900432" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32034633" />
-      <window_info content_ui="combo" id="Project" order="0" weight="0.17075774" />
-      <window_info anchor="right" id="R Packages" order="3" />
-      <window_info anchor="right" id="R Graphics" order="3" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32900432" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.3199554" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -146,16 +165,27 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32900432" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/venv1/finish_setup">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="52">
-          <caret line="2" column="36" selection-start-line="2" selection-start-column="36" selection-end-line="2" selection-end-column="36" />
+        <state relative-caret-position="130">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gather_data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="910">
+          <caret line="35" selection-start-line="35" selection-end-line="36" />
+          <folding>
+            <element signature="e#1#26#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -168,11 +198,43 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gather_data.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="344">
+        <state relative-caret-position="2132">
           <caret line="82" column="56" selection-start-line="82" selection-start-column="56" selection-end-line="82" selection-end-column="56" />
           <folding>
             <element signature="e#1#26#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv1/finish_setup" />
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/gather_data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="28" column="85" lean-forward="true" selection-start-line="28" selection-start-column="85" selection-end-line="28" selection-end-column="85" />
+          <folding>
+            <element signature="e#1#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Notebooks/TMDB movie query.ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
+        <state>
+          <selected id="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Notebooks/EDA v1.ipynb">
+      <provider selected="true" editor-type-id="ipnb-editor">
+        <state>
+          <selected id="2" />
         </state>
       </provider>
     </entry>

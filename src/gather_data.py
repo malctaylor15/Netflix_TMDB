@@ -26,6 +26,7 @@ def parse_netflix(netflix_df, show=True):
     # Split title into parts
     title_splits = netflix_df['Title'].str.split(':', 2, expand=True)
     title_splits.rename({0: 'Show Name', 1: 'Season', 2: 'Episode Name'}, axis=1, inplace=True)
+    title_splits['Episode Name'] =  title_splits['Episode Name'].str.strip().tolist()
     title_splits['TV_Show_flag'] = title_splits['Episode Name'].apply(lambda row: 'Movie' if row == None else 'TV_Show')
     # Combine and output
     netflix_df_full = pd.concat([netflix_df, title_splits], axis=1)
@@ -33,7 +34,6 @@ def parse_netflix(netflix_df, show=True):
     if show:
         print("Total number of TV Show + Movies: ", netflix_df_full.shape[0])
         print("TV Show vs Movie")
-        print(netflix_df_full['TV_Show_flag'].value_counts())
         print("Dataframe shape: ", netflix_df_full.shape)
 
     return(netflix_df_full)
