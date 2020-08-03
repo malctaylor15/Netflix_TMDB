@@ -17,8 +17,8 @@ class DataPipeline():
 
     def execute(self):
         netflix_df = self.parse_netflix(self.data_path)
-        movie_df = self.generate_movie_df(netflix_df)
-        tv_df = self.generate_tv_df(netflix_df)
+        self.movie_df = self.generate_movie_df(netflix_df)
+        self.tv_df = self.generate_tv_df(netflix_df)
 
     def parse_netflix(self, data_path, show=True):
 

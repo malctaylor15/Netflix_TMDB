@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Netflix_TMDB.iml" filepath="$PROJECT_DIR$/.idea/Netflix_TMDB.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Song_Lyrics_NLP/.idea/Song_Lyrics_NLP.iml" filepath="$PROJECT_DIR$/../Song_Lyrics_NLP/.idea/Song_Lyrics_NLP.iml" />
     </modules>
   </component>
 </project>
