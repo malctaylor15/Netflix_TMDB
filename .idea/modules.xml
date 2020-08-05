@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Netflix_TMDB.iml" filepath="$PROJECT_DIR$/.idea/Netflix_TMDB.iml" />
       <module fileurl="file://$PROJECT_DIR$/../Song_Lyrics_NLP/.idea/Song_Lyrics_NLP.iml" filepath="$PROJECT_DIR$/../Song_Lyrics_NLP/.idea/Song_Lyrics_NLP.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Tinder_dash/.idea/Tinder_dash_demo.iml" filepath="$PROJECT_DIR$/../Tinder_dash/.idea/Tinder_dash_demo.iml" />
     </modules>
   </component>
 </project>
