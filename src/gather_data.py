@@ -4,7 +4,7 @@ import pickle
 import pandas as pd
 import numpy as np
 import re
-import os
+import uuid
 import datetime
 import sqlite3
 from fuzzywuzzy import fuzz
@@ -22,9 +22,53 @@ def get_db_tables(con):
     tbls = [x[0] for x in tbls]
     return(tbls)
 
+def get_series_watched_gb(df):
+
+    out = {}
+    out['Number of Episodes'] = df.shape[0]
+    out['First Episode Watcheed'] = df['Date Watched'].min()
+    out['Last Episode Watched'] = df['Date Watched'].max()
+    out['Number of Seasons Watched'] = df['Season'].nunique()
+    if 'runtime' in df.columns:
+        out['Total Time Watched (mins)'] = df['runtime'].sum()
+        out['Total Time Watched (hrs)'] = np.round(out['Total Time Watched (mins)']/60, 2)
+        out['Normal Episode Length'] = df['runtime'].value_counts().index[0]
+
+    # Season Metrics
+    season_gb = df.groupby('Season')
+    season_episode_cnt = season_gb.size()
+    time_to_watch_season = (season_gb['Date Watched'].max() - season_gb['Date Watched'].min())
+
+    # Watch Rate is time/# of episodes
+    episode_watch_rate = time_to_watch_season / season_gb['Date Watched'].size()
+
+    # Longest Time to Watch
+    out['Longest Time to Watch Season'] = time_to_watch_season.max()
+    out['Season took Longest to Watch'] = time_to_watch_season.idxmax()
+    out['# of Episode for Longest to Watch'] = season_episode_cnt.loc[time_to_watch_season.idxmax()]
+
+    # Longest Days/Episode
+    out['Longest Days/Episode'] = episode_watch_rate.max()
+    out['Season with Longest Days/Episode'] = episode_watch_rate.idxmax()
+    out['# of Episode for Longest Days/Episode'] = season_episode_cnt.loc[episode_watch_rate.idxmax()]
+
+    # Shortest Time to Watch
+    out['Shortest Time to Watch Season'] = time_to_watch_season.min()
+    out['Season took Shortest to Watch'] = time_to_watch_season.idxmin()
+    out['# of Episode for Shortest Time to Watch'] = season_episode_cnt.loc[time_to_watch_season.idxmin()]
+
+    # Shortest Days/Episode
+    out['Shortest Days/Episode'] = episode_watch_rate.min()
+    out['Season with Shortest Days/Episode'] = episode_watch_rate.idxmin()
+    out['# of Episode for Shortest Days/Episode'] = season_episode_cnt.loc[episode_watch_rate.idxmin()]
+
+    out_series = pd.Series(out)
+    return (out_series)
+
+
 class DataPipeline():
 
-    def __init__(self, netflix_csv_path, tmdb_key, sql_path):
+    def __init__(self, netflix_csv_path, tmdb_key, sql_path, id=None):
 
         tmdb.API_KEY = tmdb_key
 
@@ -32,14 +76,32 @@ class DataPipeline():
         self.netflix_path = netflix_csv_path
         self.con = sqlite3.connect(sql_path)
         self.date = datetime.datetime.now().date()
-
+        if id == None:
+            self.id = uuid.uuid1()
+        else:
+            self.id = id
+        print(f"User: {self.id}")
 
     def execute(self):
-        netflix_df = self.parse_netflix(self.netflix_path)
+        netflix_df = self.get_netflix_df(self.con, self.netflix_path, self.id)
         self.movie_df = self.generate_movie_df(netflix_df)
         self.tv_df = self.generate_tv_df(netflix_df)
 
-    def parse_netflix(self, data_path, show=True):
+    def get_netflix_df(self, con, netflix_path=None, id=None):
+        tables = get_db_tables (con)
+        if 'User_Shows' in tables:
+            netflix_df = pd.read_sql(f"select * from User_Shows where User_ID = '{id}'", con=con)
+            if netflix_df.shape[0] == 0:
+                netflix_df = self.parse_netflix(netflix_path, user_id=self.id)
+                netflix_df.to_sql('User_Shows', con, index=False, if_exists='append')
+
+        else:
+            netflix_df = self.parse_netflix(netflix_path, user_id=self.id)
+            netflix_df.to_sql('User_Shows', con, index=False)
+
+        return(netflix_df)
+
+    def parse_netflix(self, data_path, show=True, user_id='NA'):
 
         """
         Parse the netflix dataframe to and whehter a row is a TV shows or Movie
@@ -60,8 +122,10 @@ class DataPipeline():
         title_splits['TV Show flag'] = title_splits['Episode Name'].apply(lambda row: 'Movie' if row == None else 'TV Show')
         # Combine and output
         self.netflix_df_full = pd.concat([netflix_df, title_splits], axis=1)
+        self.netflix_df_full['User_ID'] = user_id
+        self.netflix_df_full['Date Logged'] = str(datetime.datetime.now().date())
 
-        if show: print("Total number of TV Show + Movies: ", self.netflix_df_full.shape[0])
+        if show: print(f"Total number of TV Show + Movies: {self.netflix_df_full.shape[0]}")
 
         return(self.netflix_df_full)
 
@@ -128,6 +192,14 @@ class DataPipeline():
         full_movie_results = tmdb.Movies(temp_id).info()
         movie_results = {attr: full_movie_results.get(attr) for attr in normal_movie_fields}
 
+        # Genres
+        if full_movie_results.get('genres') == None:
+            movie_results['Genres'] = '[]'
+            movie_results['Genre IDs'] = '[]'
+        else:
+            movie_results['Genres'] = str([x.get('name') for x in full_movie_results.get('genres')])
+            movie_results['Genre IDs'] = str([x.get('id') for x in full_movie_results.get('genres')])
+
         # Append additional fields
         movie_results['Number of Search Results'] = n_results
         movie_results['Input Movie Title'] = movie_title
@@ -136,10 +208,9 @@ class DataPipeline():
 
         # Prepare to export
         movie_results = pd.Series(movie_results)
-        new_column_order = normal_movie_fields.copy()
+        new_column_order = movie_results.index.tolist().copy()
+        new_column_order.remove('Input Movie Title')
         new_column_order.insert(0, 'Input Movie Title')
-        additional_cols = ['Number of Search Results', 'Cosine Distance', 'Date Pulled']
-        new_column_order.extend(additional_cols)
         movie_results = movie_results[new_column_order]
 
         return (movie_results)
@@ -228,7 +299,6 @@ class DataPipeline():
 
         return(self.all_movies_results_df)
 
-
     def _get_TV_show_details(self, tv_show_name):
         # Select requested_fields from response
         normal_tv_show_fields = ['n_production_companies', 'primary_production_co', 'runtime', 'release_date'
@@ -273,6 +343,15 @@ class DataPipeline():
         tv_show_results['primary_network'] = '' if len(full_tv_show_results['networks']) == 0 else \
         full_tv_show_results['networks'][0]['name']
 
+        # Genres
+        if full_tv_show_results.get('genres') == None:
+            tv_show_results['Genres'] = '[]'
+            tv_show_results['Genre IDs'] = '[]'
+        else:
+            tv_show_results['Genres'] = str([x.get('name') for x in full_tv_show_results.get('genres')])
+            tv_show_results['Genre IDs'] = str([x.get('id') for x in full_tv_show_results.get('genres')])
+
+
         # Append additional fields
         tv_show_results['Number of Search Results'] = n_results
         tv_show_results['Input TV Show Title'] = tv_show_name
@@ -282,50 +361,11 @@ class DataPipeline():
         tv_show_results = pd.Series(tv_show_results)
         return (tv_show_results)
 
-    def _get_series_watched_gb(self, df):
-
-        out = {}
-        out['Number of Episodes'] = df.shape[0]
-        out['First Episode Watcheed'] = df['Date Watched'].min()
-        out['Last Episode Watched'] = df['Date Watched'].max()
-        out['Number of Seasons Watched'] = df['Season'].nunique()
-
-        # Season Metrics
-        season_gb = df.groupby('Season')
-        season_episode_cnt = season_gb.size()
-        time_to_watch_season = (season_gb['Date Watched'].max() - season_gb['Date Watched'].min())
-
-        # Watch Rate is time/# of episodes
-        episode_watch_rate = time_to_watch_season / season_gb['Date Watched'].size()
-
-        # Longest Time to Watch
-        out['Longest Time to Watch Season'] = time_to_watch_season.max()
-        out['Season took Longest to Watch'] = time_to_watch_season.idxmax()
-        out['# of Episode for Longest to Watch'] = season_episode_cnt.loc[time_to_watch_season.idxmax()]
-
-        # Longest Days/Episode
-        out['Longest Days/Episode'] = episode_watch_rate.max()
-        out['Season with Longest Days/Episode'] = episode_watch_rate.idxmax()
-        out['# of Episode for Longest Days/Episode'] = season_episode_cnt.loc[episode_watch_rate.idxmax()]
-
-        # Shortest Time to Watch
-        out['Shortest Time to Watch Season'] = time_to_watch_season.min()
-        out['Season took Shortest to Watch'] = time_to_watch_season.idxmin()
-        out['# of Episode for Shortest Time to Watch'] = season_episode_cnt.loc[time_to_watch_season.idxmin()]
-
-        # Shortest Days/Episode
-        out['Shortest Days/Episode'] = episode_watch_rate.min()
-        out['Season with Shortest Days/Episode'] = episode_watch_rate.idxmin()
-        out['# of Episode for Shortest Days/Episode'] = season_episode_cnt.loc[episode_watch_rate.idxmin()]
-
-        out_series = pd.Series(out)
-        return (out_series)
-
     def generate_tv_df(self, netflix_df, show=True):
 
         all_tv_episodes = netflix_df[netflix_df['TV Show flag'] == 'TV Show']
         print(f"Total number of Episodes of TV Shows: {all_tv_episodes.shape[0]}")
-        user_tv_shows = all_tv_episodes.groupby('Show Name').apply(self._get_series_watched_gb)
+        user_tv_shows = all_tv_episodes.groupby('Show Name').apply(get_series_watched_gb)
         user_tv_shows = user_tv_shows.reset_index()
         if show: print(f'Number of unique TV Shows: {user_tv_shows.shape[0]}')
         # Check DB for movies we already have info for...
@@ -400,7 +440,7 @@ class DataPipeline():
         if new_tv_shows_info.shape[0] > 0:
             if tv_show_table_exits:
 
-                # Add only the new entries (special because of re search feature may not have original name in databse
+                # Add only the new entries (special because of re search feature may not have original name in databsec
                 db_tv_show = pd.read_sql_query('Select `Input TV Show Title` from TV_Shows', self.con)
                 keepers = pd.merge(new_tv_shows_info, db_tv_show, on='Input TV Show Title'
                                    , how='left', indicator='i')

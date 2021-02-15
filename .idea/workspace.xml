@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1081788e-b78d-4896-b7c0-5acb578a128d" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/Netflix_TMDB.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Netflix_TMDB.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Notebooks/TMDB TV Show query .ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Notebooks/TMDB TV Show query .ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Notebooks/TMDB movie query.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Notebooks/TMDB movie query.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Notebooks/Working with classes.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Notebooks/Working with classes.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Notebooks/Analysis v1 .ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Notebooks/Analysis v1 .ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Notebooks/Demo Re Org.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Notebooks/Demo Re Org.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Notebooks/NLP start.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Notebooks/NLP start.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gather_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/gather_data.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Tinder_dash/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Tinder_dash/.idea/workspace.xml" afterDir="false" />
     </list>
@@ -32,7 +30,7 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Tinder_dash" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
   </component>
   <component name="RunDashboard">

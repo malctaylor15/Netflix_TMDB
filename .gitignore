@@ -3,3 +3,4 @@ venv1/
 .idea/
 Notebooks/.ipynb*
 jupyter
+__pycache__
